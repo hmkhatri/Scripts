@@ -89,17 +89,17 @@ class TWODimensional_spec(object):
         else:
             pass
 
-""" Applies hanning window to make the field smoothly go to zero at end points
+        """ Applies hanning window to make the field smoothly go to zero at end points
 
-Or Else applies bump function, which quickly decays to zero at end points.
-This is better than hanning window, which removes signicant part of the signal """
+        Or Else applies bump function, which quickly decays to zero at end points.
+        This is better than hanning window, which removes signicant part of the signal """
         if han_win:
             win1 =  np.hanning(self.n1)
             win1 =  np.sqrt(self.n1/(win1**2).sum())*win1
             win2 =  np.hanning(self.n2)
             win2 =  np.sqrt(self.n2/(win2**2).sum())*win2
             win = win1[np.newaxis,...]*win2[...,np.newaxis]
-            self.phi *= win
+            self.phi = self.phi*win
         else:
             a = 0.01 # controls how quickly function goes to zero
             x = np.linspace(-1,1,self.n1)
@@ -107,7 +107,7 @@ This is better than hanning window, which removes signicant part of the signal "
             win1 = np.exp(-a/(1-x**2)+a)
             win2 = np.exp(-a/(1-y**2)+a)
             win = win1[np.newaxis,...]*win2[...,np.newaxis]
-            self.phi *= win
+            #self.phi = self.phi*win
 
         # test eveness
         if (self.n1 % 2):
